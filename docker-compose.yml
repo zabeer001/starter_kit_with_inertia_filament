@@ -1,15 +1,15 @@
 services:
     laravel.test:
         build:
-            context: './vendor/laravel/sail/runtimes/8.4'
+            context: ./vendor/laravel/sail/runtimes/8.4
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: 'sail-8.4/app'
+        image: sail-8.4/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
-            - "8080:80" 
+            - '8080:80'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
             WWWUSER: '${WWWUSER}'
@@ -23,11 +23,10 @@ services:
             - sail
         depends_on:
             - mysql
-
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
-            - "3308:3306"
+            - '3308:3306'
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ROOT_HOST: '%'
@@ -51,22 +50,20 @@ services:
             timeout: 5s
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin
+        container_name: filament_phpmyadmin
         environment:
             PMA_HOST: mysql
             PMA_PORT: 3306
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
         ports:
-            - "8081:80"   # map host 8081 to container 80
+            - '8081:80'
         depends_on:
             - mysql
         networks:
             - sail
-
 networks:
     sail:
         driver: bridge
-
 volumes:
     sail-mysql:
         driver: local
